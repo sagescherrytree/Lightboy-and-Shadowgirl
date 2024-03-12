@@ -3,16 +3,7 @@
 	"EngineAssociation": "5.3",
 	"Category": "",
 	"Description": "",
-	"Modules": [
-		{
-			"Name": "LightTest",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"Engine"
-			]
-		}
-	],
+	"Modules": [],
 	"Plugins": [
 		{
 			"Name": "ModelingToolsEditorMode",
