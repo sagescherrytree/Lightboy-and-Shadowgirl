@@ -33,17 +33,13 @@ void ABeamLight::UpdateMesh() const
 	for (int32 i = 0; i < NumRays; i++)
 	{
 		const float Displacement = DeltaWidth * i - 0.5f * BeamWidth;
-		const FVector LocalStart = FVector(0.f, 0.f, Displacement);
-		Vertices.Add(LocalStart);
-		const FVector Start = Transform.TransformPosition(LocalStart);
-		const FVector End = Transform.TransformPosition(LocalStart + RayLength * FVector::ForwardVector);
+		const FVector Start = FVector(0.f, 0.f, Displacement);
+		Vertices.Add(Start);
+		const FVector End = Start + RayLength * FVector::ForwardVector;
 		
-		FHitResult HitResult;
-		bool bHit = RayCast(HitResult, Start, End);
- 
-		const FVector WorldHitPos = bHit ? HitResult.Location : End;
-		const FVector LocalHitPos = Transform.InverseTransformPosition(WorldHitPos);
-		Vertices.Add(LocalHitPos);
+		bool bHit;
+		const FVector HitPos = RayCast(Start, End, bHit);
+		Vertices.Add(HitPos);
 	}
 
 	for (int32 i = 0; i < 2 * NumRays - 2; i += 2)

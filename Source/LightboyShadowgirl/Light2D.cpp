@@ -21,11 +21,17 @@ void ALight2D::WriteMesh(const TArray<FVector>& Vertices, const TArray<int32>& T
 	Mesh->CreateMeshSection(0, Vertices, Triangles, Normals, UVs, VertexColors, TArray<FProcMeshTangent>(), false);
 }
 
-bool ALight2D::RayCast(FHitResult& HitResult, const FVector& Start, const FVector& End) const
+FVector ALight2D::RayCast(FVector Start, FVector End, bool& bHit) const
 {
+	const FTransform Transform = GetActorTransform();
+	Start = Transform.TransformPosition(Start);
+	End = Transform.TransformPosition(End);
+	
+	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
-	return GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);
+	bHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);
+	return bHit ? Transform.InverseTransformPosition(HitResult.Location) : End;
 }
 
 // Called when the game starts or when spawned

@@ -25,7 +25,7 @@ public:
 
 protected:
 	void WriteMesh(const TArray<FVector>& Vertices, const TArray<int32>& Triangles) const;
-	bool RayCast(FHitResult& HitResult, const FVector& Start, const FVector& End) const;
+	FVector RayCast(FVector Start, FVector End, bool& bHit) const;
 	virtual void BeginPlay() override;
 
 public:	
