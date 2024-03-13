@@ -23,8 +23,6 @@ void ABeamLight::Tick(float DeltaTime)
 
 void ABeamLight::UpdateMesh() const
 {
-	const FTransform Transform = Mesh->GetComponentTransform();
-	
 	float DeltaWidth = BeamWidth / (NumRays - 1);
  
 	TArray<FVector> Vertices;
@@ -51,5 +49,12 @@ void ABeamLight::UpdateMesh() const
 
 bool ABeamLight::Reaches_Implementation(FVector Point) const
 {
-	return true;
+	const FTransform Transform = GetActorTransform();
+	const FVector LocalPoint = Transform.InverseTransformPosition(Point);
+	if (std::abs(LocalPoint.Z) < BeamWidth / 2.f)
+	{
+		return false;
+	}
+	const FVector Start = Transform.TransformPosition(FVector(0.f, 0.f, LocalPoint.Z));
+	return RayReaches(Start, Point);
 }

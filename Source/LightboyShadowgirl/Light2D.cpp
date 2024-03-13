@@ -30,7 +30,6 @@ FVector ALight2D::RayCast(FVector LocalStart, FVector LocalEnd) const
 	
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredActor(this);
 	bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, LocalStart, LocalEnd, ECC_GameTraceChannel1, CollisionParams);
 	return Transform.InverseTransformPosition(bHit ? HitResult.Location : LocalEnd);
 }
@@ -39,7 +38,6 @@ bool ALight2D::RayReaches(FVector GlobalStart, FVector GlobalEnd) const
 {
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredActor(this);
 	return !GetWorld()->LineTraceSingleByChannel(HitResult, GlobalStart, GlobalEnd, ECC_GameTraceChannel1, CollisionParams);
 }
 
