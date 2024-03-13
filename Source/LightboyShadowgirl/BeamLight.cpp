@@ -36,9 +36,7 @@ void ABeamLight::UpdateMesh() const
 		const FVector Start = FVector(0.f, 0.f, Displacement);
 		Vertices.Add(Start);
 		const FVector End = Start + RayLength * FVector::ForwardVector;
-		
-		bool bHit;
-		const FVector HitPos = RayCast(Start, End, bHit);
+		const FVector HitPos = RayCast(Start, End);
 		Vertices.Add(HitPos);
 	}
 

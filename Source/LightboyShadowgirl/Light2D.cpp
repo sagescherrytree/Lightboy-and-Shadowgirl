@@ -21,17 +21,26 @@ void ALight2D::WriteMesh(const TArray<FVector>& Vertices, const TArray<int32>& T
 	Mesh->CreateMeshSection(0, Vertices, Triangles, Normals, UVs, VertexColors, TArray<FProcMeshTangent>(), false);
 }
 
-FVector ALight2D::RayCast(FVector Start, FVector End, bool& bHit) const
+FVector ALight2D::RayCast(FVector LocalStart, FVector LocalEnd) const
 {
 	const FTransform Transform = GetActorTransform();
-	Start = Transform.TransformPosition(Start);
-	End = Transform.TransformPosition(End);
+	// Convert to global space
+	LocalStart = Transform.TransformPosition(LocalStart);
+	LocalEnd = Transform.TransformPosition(LocalEnd);
 	
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
-	bHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);
-	return bHit ? Transform.InverseTransformPosition(HitResult.Location) : End;
+	bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, LocalStart, LocalEnd, ECC_GameTraceChannel1, CollisionParams);
+	return Transform.InverseTransformPosition(bHit ? HitResult.Location : LocalEnd);
+}
+
+bool ALight2D::RayReaches(FVector GlobalStart, FVector GlobalEnd) const
+{
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(this);
+	return !GetWorld()->LineTraceSingleByChannel(HitResult, GlobalStart, GlobalEnd, ECC_GameTraceChannel1, CollisionParams);
 }
 
 // Called when the game starts or when spawned
