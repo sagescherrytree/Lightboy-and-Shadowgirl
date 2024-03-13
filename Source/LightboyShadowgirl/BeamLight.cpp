@@ -46,7 +46,7 @@ void ABeamLight::UpdateMesh() const
 		Vertices.Add(LocalHitPos);
 	}
 
-	for (int32 i = 0; i < 2 * NumRays; i += 2)
+	for (int32 i = 0; i < 2 * NumRays - 2; i += 2)
 	{
 		Triangles.Append({i, i + 1, i + 2, i + 1, i + 3, i + 2});
 	}
