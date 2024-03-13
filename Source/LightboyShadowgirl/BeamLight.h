@@ -3,23 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Light2D.h"
 #include "LightInterface.h"
 #include "GameFramework/Actor.h"
 #include "ProceduralMeshComponent.h"
 #include "BeamLight.generated.h"
 
 UCLASS()
-class LIGHTBOYSHADOWGIRL_API ABeamLight : public AActor, public ILightInterface
+class LIGHTBOYSHADOWGIRL_API ABeamLight : public ALight2D, public ILightInterface
 {
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UProceduralMeshComponent* Mesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 NumRays;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float BeamWidth;
 	
@@ -33,6 +28,5 @@ public:
 
 private:
 	virtual void UpdateMesh() const override;
-	virtual bool Reaches(FVector Point) const override;
-	
+	virtual bool Reaches_Implementation(FVector Point) const override;
 };
