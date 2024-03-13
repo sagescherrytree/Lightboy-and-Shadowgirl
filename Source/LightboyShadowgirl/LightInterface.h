@@ -13,6 +13,7 @@ class ILightInterface
 	GENERATED_BODY()
 
 public:
-	virtual void UpdateMesh() const = 0;
-	virtual bool Reaches(FVector Point) const = 0;
+	virtual void UpdateMesh() const;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "LightInterface")
+	bool Reaches(FVector Point) const;
 };
