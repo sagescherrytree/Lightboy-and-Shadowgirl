@@ -51,7 +51,7 @@ bool ABeamLight::Reaches_Implementation(FVector Point) const
 {
 	const FTransform Transform = GetActorTransform();
 	const FVector LocalPoint = Transform.InverseTransformPosition(Point);
-	if (std::abs(LocalPoint.Z) < BeamWidth / 2.f)
+	if (std::abs(LocalPoint.Z) > BeamWidth / 2.f)
 	{
 		return false;
 	}
